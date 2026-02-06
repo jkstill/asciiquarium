@@ -1412,6 +1412,108 @@ q{
 	);
 }
 
+sub add_jellyfish {
+	my ($old_ent, $anim) = @_;
+
+	# 1. Define the art and color masks from Step 1
+	my @left_tentacle_chars  = qw# ( ( [ / | #;
+	my @right_tentacle_chars = qw# ) ) ] \ | #;
+	my $tentacle_char_index = int(rand(scalar(@left_tentacle_chars)))-1;
+	my $l = $left_tentacle_chars[$tentacle_char_index];
+	my $r = $right_tentacle_chars[$tentacle_char_index];
+
+	my @jellyfish_image = (
+[
+qq{
+  .-.
+ (o o)
+'-' '-'
+ $l $r $l
+ $r $l $r
+ $l $r $l
+},
+qq{
+  .-.
+ (o o)
+'-' '-'
+ $r $l $r
+ $l $r $l
+ $r $l $r
+}
+],
+[
+qq{
+  .-.
+ (o o)
+'-' '-'
+ $r $l $r
+ $l $r $l
+ $r $l $r
+},
+qq{
+  .-.
+ (o o)
+'-' '-'
+ $l $r $l
+ $r $l $r
+ $l $r $l
+},
+]
+);
+
+	my @jellyfish_mask = (
+q{
+  BBB
+ BW WB
+GRG GRG
+ B B B
+ B B B
+ B B B
+},
+q{
+  BBB
+ BW WB
+GRG GRG
+ B B B
+ B B B
+ B B B
+});
+
+	# 2. Determine direction and speed
+	my $dir = int(rand(2)); # 0 for right, 1 for left
+	my $x;
+	my $speed = rand(1) + 0.5; # Horizontal speed
+	if($dir) {
+		$speed *= -1;
+		$x = $anim->width()-2; # Start at right edge
+	} else {
+		$x = 0; # Start at left edge
+	}
+
+	# 3. Set vertical position and depth
+	my $max_height = 9;
+	my $min_height = $anim->height() - 10;
+	my $y = int(rand($min_height - $max_height)) + $max_height;
+	my $depth = int(rand(10)) + $depth{'fish_start'}; # Randomly assign depth
+
+	# 4. Randomize colors in the mask
+	my $color_mask = rand_color($jellyfish_mask[$dir]);
+
+	# 5. Create the entity
+	$anim->new_entity(
+		type		     => 'jellyfish',
+		shape		=> $jellyfish_image[$dir],
+		auto_trans	 => 1,
+		color		=> $color_mask,
+		position	=> [ $x, $y, $depth ],
+		# Jellyfish mostly float down, moving slowly side-to-side
+		callback_args	=> [ $speed, 0.2, 0, 0.2 ],
+		die_offscreen	=> 1,                 # Remove when it leaves the screen
+		death_cb	=> \&random_object,   # Call a random object when it dies
+		default_color	=> 'MAGENTA',         # A fallback color
+	);
+}
+
 sub init_random_objects {
 	#return ( \&add_shark );
 	return (
@@ -1420,6 +1522,7 @@ sub init_random_objects {
 		\&add_monster,
 		\&add_big_fish,
 		\&add_shark,
+		\&add_jellyfish,
 	);
 }
 
