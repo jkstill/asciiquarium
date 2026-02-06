@@ -11,6 +11,21 @@ Asciiquarium is a single perl script, so all you have to do is make sure
 it's executable and put it somewhere convenient, like /usr/local/bin or
 /usr/local/games.
 
+  Ubuntu
+  ------
+
+  Out-of-the-box ubuntu doesn't satisfy the Requirements below, so
+  here's how to get them:
+  1) Get perl's curses package which is available from apt:
+       sudo apt-get install libcurses-perl
+  2) Run
+       cpan
+     at the shell.  Agree to the defaults for everything.
+     To leave cpan, type 
+       quit
+  3) Type
+    sudo cpan Term::Animation
+
 Requirements
 ------------
 
@@ -23,7 +38,9 @@ you might get it to run under cygwin).
 Usage
 -----
 
-There are no command line arguments.
+Command line arguments:
+	-c	"classic" mode, only show species from Asciiquarium 1.0
+
 While running:
 	q	quit
 	r	redraw (will recreate all entities)
@@ -31,6 +48,9 @@ While running:
 
 Contributors
 ------------
+
+New fish species backported from the Android live wallpaper and
+other minor improvements by Claudio Matsuoka.
 
 Pretty much all of the ASCII art was done by Joan Stark:
 http://www.geocities.com/SoHo/7373/

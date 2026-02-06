@@ -1,5 +1,11 @@
 Changes for Asciiquarium
 
+Version 1.2 Date unknown
+    - Claudio Matsuoka <cmatsuoka@gmail.com>
+    - improved marine biodiversity (backported from the Asciiquarium Live
+    - Wallaper for Android)
+    - https://market.android.com/details?id=org.helllabs.android.asciiquarium
+
 Version 1.1 2013-03-09
 	- Automatically redraw when the terminal size changes
 	- Added fish hook, swan, ducks and dolphins
