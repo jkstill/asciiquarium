@@ -52,9 +52,10 @@ use Getopt::Std;
 use strict;
 use warnings;
 
-my $version = "1.1";
+my $version = "1.3";
 my $new_fish = 1;
 my $new_monster = 1;
+my $global_speed_mult = 1;
 
 our $opt_c;
 getopts('c');
@@ -123,6 +124,8 @@ sub main {
 
 			if   ( $in eq 'q' ) { quit(); }   # Exit
 			elsif( $in eq 'r' ) { last; }     # Redraw (will recreate all objects)
+			elsif( $in eq 'f' ) { $global_speed_mult *= 1.25; last; }     # Redraw (will recreate all objects)
+			elsif( $in eq 's' ) { $global_speed_mult *= .75; last; }     # Redraw (will recreate all objects)
 			elsif( $in eq 'p' ) { $paused = !$paused; }
 
 			$anim->animate() unless($paused);
@@ -678,6 +681,7 @@ sub add_fish_entity {
 	if($fish_num % 2) {
 		$speed *= -1;
 	}
+	$speed *= $global_speed_mult;
 	my $fish_object = Term::Animation::Entity->new(
 		type		=> 'fish',
 		shape		=> $fish_image[$fish_index],
@@ -833,6 +837,7 @@ q#
 		$x = $anim->width()-2;
 		$teeth_x = $x + 9;
 	}
+	$speed *= $global_speed_mult;
 
 	$anim->new_entity(
 		type		=> 'teeth',
@@ -915,6 +920,7 @@ yywwwyyyyyyyyyyyyyyyyyyyy
 		$speed *= -1;
 		$x = $anim->width()-2;
 	}
+	$speed *= $global_speed_mult;
 
 	$anim->new_entity(
 		color		=> $ship_mask[$dir],
@@ -1011,6 +1017,7 @@ q{
 		$spout_align = 11;
 		$x = -18;
 	}
+	$speed *= $global_speed_mult;
 	
 	# no water spout
 	for (1..5) {
@@ -1102,6 +1109,7 @@ q{                                                W W
 	} else {
 		$x = -54
 	}
+	$speed *= $global_speed_mult;
 	my @monster_anim_mask;
 	for(1..2) { push(@monster_anim_mask, $monster_mask[$dir]); }
 
@@ -1197,6 +1205,7 @@ q{
 	} else {
 		$x = -64
 	}
+	$speed *= $global_speed_mult;
 	my @monster_anim_mask;
 	for(1..4) { push(@monster_anim_mask, $monster_mask[$dir]); }
 
@@ -1305,6 +1314,7 @@ q{
 	} else {
 		$x = -34;
 	}
+	$speed *= $global_speed_mult;
 	my $max_height = 9;
 	my $min_height = $anim->height() - 15;
 	my $y = int(rand($min_height - $max_height)) + $max_height;
@@ -1396,6 +1406,7 @@ q{
 	} else {
 		$x = -33;
 	}
+	$speed *= $global_speed_mult;
 	my $max_height = 9;
 	my $min_height = $anim->height() - 14;
 	my $y = int(rand($min_height - $max_height)) + $max_height;
@@ -1489,6 +1500,7 @@ GRG GRG
 	} else {
 		$x = 0; # Start at left edge
 	}
+	$speed *= $global_speed_mult;
 
 	# 3. Set vertical position and depth
 	my $max_height = 9;
