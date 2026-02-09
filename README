@@ -43,7 +43,9 @@ Command line arguments:
 
 While running:
 	q	quit
+	f  redraw and increase speed
 	r	redraw (will recreate all entities)
+	s  redraw and decrease speed
 	p	toggle pause
 
 Contributors
