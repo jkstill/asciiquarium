@@ -1637,7 +1637,7 @@ gggggggg
 }
 
 sub init_random_objects {
-	return ( \&add_scuba );
+	#return ( \&add_scuba );
 	return (
 		\&add_ship,
 		\&add_whale,
@@ -1645,7 +1645,7 @@ sub init_random_objects {
 		\&add_big_fish,
 		\&add_shark,
 		\&add_jellyfish,
-		#\&add_scuba,
+		\&add_scuba,
 	);
 }
 
