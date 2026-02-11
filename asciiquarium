@@ -1543,13 +1543,13 @@ ______         ______
                        \___|_|D
 },
 q{
-              ______
+               ______
   \    _______(___||_)o* _
-   \__/___ ___  o       )(_)O
+   \__/___ ___ o       )(_)O
 _____/       '-o------\`  ^ <
-                      \___|_|D
-},
-], [
+                       \___|_|D
+}
+],[
 q{
           ______         ______
      _ *o(_||___)_______/___
@@ -1563,43 +1563,43 @@ q{
    O(_)(       o  _____\__/
   > ^  `/------o-'      \_____
 D|_|___/
-},
+}
 ]
 );
 
 	my @scuba_mask = (
 [
 q{
-          bbbbbb         gggggg
-     g ggbbwwbbbbggggggggggg
-   wgggg       r  gggggg    g
-  g g  gggggggg gg           g
-gggggggg
+bbbbbb         wwwwww
+   bbbbgggggggwgggrrgwbb g
+  b    bggggg  r       bgggb
+ b           ggrgggggggg  b b
+                       gggggggw
 },
 q{
-
-          bbbbbb         
-     g ggbbwwbbbbgggggg    g
-   wgggg       r  ggggggggg
-  g g  gggggggg gg      gggggg
-gggggggg
+               wwwwww
+  b    gggggggwgggrrgwbb g
+   bbbbggggggg r       bgggb
+bbbbbb       ggrgggggggg  b b
+                       gggggggw
 }
 ],[
 q{
-bbbbbb         gggggg          
-     gggggggggggggbbwwbbgg g g
-g    gggggg  r       ggggw   
-g           gg gggggggg  g g
-        gggggggg
+          bbbbbb         bbbbbb
+     g ggbbwwbbbbgggggggbbbb
+   wgggg       r  gggggg    b
+  g g  ggggggggrgg           b
+gggggggg
 },
 q{
-bbbbbb                   
-g    gggggggbbbbwwbbgg g g
-gggggggggg  r        ggggw   
-gggggg       gg ggggggggg g g
-         gggggggg
+          bbbbbb         
+     g ggbbwwbbbbgggggg    b
+   wgggg       r  ggggggbbb
+  g g  ggggggggrgg      bbbbbb
+gggggggg
 }
-]);
+]
+);
 
 	my $dir = int(rand(2)); # 0 for left to right, 1 for right to left
 
@@ -1618,6 +1618,8 @@ gggggg       gg ggggggggg g g
 	my $y = int(rand($min_height - $max_height)) + $max_height;
 	my $color_mask = rand_color($scuba_mask[$dir]);
 	my $depth = int(rand(10)) + $depth{'fish_start'};
+
+	$speed *= $global_speed_mult;
 
 	$anim->new_entity(
 		type		     => 'scuba',
@@ -1643,7 +1645,7 @@ sub init_random_objects {
 		\&add_big_fish,
 		\&add_shark,
 		\&add_jellyfish,
-		\&add_scuba,
+		#\&add_scuba,
 	);
 }
 
