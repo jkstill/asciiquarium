@@ -8,7 +8,7 @@
 # can get both modules from http://search.cpan.org. Asciiquarium will
 # only run on platforms with a curses library, so Windows is not supported.
 #
-# The current version of this program is available at:
+# The original version of this program is available at:
 #
 # http://robobunny.com/projects/asciiquarium
 #
@@ -52,7 +52,7 @@ use Getopt::Std;
 use strict;
 use warnings;
 
-my $version = "1.3";
+my $version = "1.4";
 my $new_fish = 1;
 my $new_monster = 1;
 my $global_speed_mult = 1;
@@ -1534,22 +1534,7 @@ sub add_scuba {
 	my ($old_ent, $anim) = @_;
 
 	my @scuba_image = (
-		[
-q{
-          ______         ______
-     _ *o(_||___)_______/___
-   O(_)(       o  _____/    \
-  > ^  `/------o-'           \
-D|_|___/
-},
-q{
-          ______          
-     _ *o(_||___)______    /
-   O(_)(       o  _____\__/
-  > ^  `/------o-'      \_____
-D|_|___/
-},
-],[
+[
 	q{
 ______         ______
    ___\_______(___||_)o* _
@@ -1563,6 +1548,21 @@ q{
    \__/___ ___  o       )(_)O
 _____/       '-o------\`  ^ <
                       \___|_|D
+},
+], [
+q{
+          ______         ______
+     _ *o(_||___)_______/___
+   O(_)(       o  _____/    \
+  > ^  `/------o-'           \
+D|_|___/
+},
+q{
+          ______          
+     _ *o(_||___)______    /
+   O(_)(       o  _____\__/
+  > ^  `/------o-'      \_____
+D|_|___/
 },
 ]
 );
@@ -1601,25 +1601,23 @@ gggggg       gg ggggggggg g g
 }
 ]);
 
+	my $dir = int(rand(2)); # 0 for left to right, 1 for right to left
 
-	my $dir = 1; # right to left only for now
-	#my $dir = int(rand(2)); # 0 for right, 1 for left
 	my $x;
 	my $speed = 1.5;
+
 	if($dir) {
-		$x = $anim->width()-1;
 		$speed *= -1;
+		$x = $anim->width()-2; # Start at right edge
 	} else {
-		$x = -33;
+		$x = 0; # Start at left edge
 	}
+
 	my $max_height = 9;
 	my $min_height = $anim->height() - 14;
 	my $y = int(rand($min_height - $max_height)) + $max_height;
 	my $color_mask = rand_color($scuba_mask[$dir]);
 	my $depth = int(rand(10)) + $depth{'fish_start'};
-
-	#my @scuba_anim_mask;
-	#for(1..2) { push(@scuba_anim_mask, $scuba_mask[$dir]); }
 
 	$anim->new_entity(
 		type		     => 'scuba',
@@ -1637,7 +1635,7 @@ gggggg       gg ggggggggg g g
 }
 
 sub init_random_objects {
-	#return ( \&add_scuba );
+	return ( \&add_scuba );
 	return (
 		\&add_ship,
 		\&add_whale,
