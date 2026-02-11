@@ -56,6 +56,8 @@ my $version = "1.3";
 my $new_fish = 1;
 my $new_monster = 1;
 my $global_speed_mult = 1;
+my $bubble_speed_default = .1;
+my $bubble_speed = $bubble_speed_default;
 
 our $opt_c;
 getopts('c');
@@ -124,8 +126,9 @@ sub main {
 
 			if   ( $in eq 'q' ) { quit(); }   # Exit
 			elsif( $in eq 'r' ) { last; }     # Redraw (will recreate all objects)
-			elsif( $in eq 'f' ) { $global_speed_mult *= 1.25; last; }     # Redraw (will recreate all objects)
-			elsif( $in eq 's' ) { $global_speed_mult *= .75; last; }     # Redraw (will recreate all objects)
+			elsif( $in eq 'f' ) { $bubble_speed *= 1.25; $global_speed_mult *= 1.25; last; }    # increase speed and redraw
+			elsif( $in eq 's' ) { $bubble_speed *= .75;  $global_speed_mult *= .75; last; }     # decrease speed and redraw
+			elsif( $in eq 'd' ) { $bubble_speed  = $bubble_speed_default; $global_speed_mult = 1; last; }     # set speed to default and redraw
 			elsif( $in eq 'p' ) { $paused = !$paused; }
 
 			$anim->animate() unless($paused);
@@ -264,7 +267,8 @@ sub add_bubble {
 		shape		=> [ '.', 'o', 'O', 'O', 'O' ],
 		type		=> 'bubble',
 		position	=> \@bubble_pos,
-		callback_args	=> [ 0, -1, 0, .1 ],
+		#callback_args	=> [ 0, -1, 0, .1 ],
+		callback_args	=> [ $bubble_speed, -1, 0, .1 ], # experiment with having bubbles also move horizontally with the fish so speed can be adjusted by global speed multiplier
 		die_offscreen	=> 1,
 		physical	=> 1,
 		coll_handler	=> \&bubble_collision, 
